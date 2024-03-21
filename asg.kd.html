@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0063)https://www.cs.uky.edu/~raphael/courses/CS315/prog3/asg.kd.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style> code {font-size: 15px; color: blue;} </style>
+<title></title></head><body>
+<div style="text-align:center;"><h1>Programming Assignment 3: K-D Trees</h1></div>
+<h2>Background</h2>
+<p>
+One generalization of binary trees is the <b>k-d tree</b>, which stores
+<i>k</i>-dimensional data.  Every <b>internal node</b> of a k-d tree indicates 
+the dimension <i>d</i> and the value <i>v</i> in that dimension that
+it discriminates by.
+An internal node has exactly two children, containing data that is
+less-than-or-equal
+and data that is greater than <i>v</i> in dimension <i>d</i>.
+For example, if the node distinguishes on dimension 1, value 107,
+then the left child is for data with y value less than or equal to 107,
+and the right child is for data with y value greater than 107.
+<b>Leaf</b> nodes
+represent a <b>bucket</b> containing no more than <i>b</i> elements of
+<i>k</i>-dimensional
+data.  All data are found in the leaves.
+</p><p>
+There are several strategies for building k-d trees.  The
+<b>offline method</b> (1) accumulates all the data in an array,
+(2) finds the best dimension to discriminate on, namely, the one with
+the widest range (break ties by choosing the earliest dimension that has the
+widest range),
+(3) finds the best value of that dimension to discriminate on, namely,
+the median value in that dimension (using the QuickSelect algorithm
+with Lomuto's partitioning method),
+(4) separates the data into two subarrays based on that discriminant,
+(5) recurses back to step 2 on each subarray.
+Recursion terminates when an array has size <i>b</i> or smaller.
+One can also devise <b>online</b> methods that add to existing trees.
+</p><h2>Requirements</h2>
+<p>
+Write a program called <code>kd</code> that
+(1) takes three parameters, all positive integers:
+<i>k</i> specifies the number of dimensions,
+<i>n</i> specifies how many data points are to be placed in the tree, and 
+<i>p</i> specifies the number of probes into the tree;
+(2) reads from standard input a list of <i>n</i> <i>k</i>-dimensional integer data
+points;
+(3) builds a k-d tree with those <i>n</i> values using the offline
+method, with
+<i>b</i> set to 10 (and ties going to the left subtree);
+(4) reads <i>p</i> <i>k</i>-dimensional data values, called <b>probes</b>, and
+for each probe, lists all the data points stored in the bucket where
+the probe would be found if it were in the tree.
+</p><p>
+In step 3, you may assume that all integer data are distinct.
+</p><h2>Extra credit</h2>
+<ol>
+<li>
+
+For each probe, find the element in its bucket that is nearest according to
+Euclidean distance (the L² norm).
+</li><li>
+
+Instead of the L² norm, use the L¹ norm, or generalize to any <i>p</i>-norm. 
+</li><li>
+
+The nearest element to a probe may not be in its bucket, but rather in a nearby
+bucket.  Figure out and program an algorithm to find the true nearest neighbor.
+</li><li>
+
+Program an online method for building the tree and handle the same probes.
+</li></ol>
+<p>
+</p><h2>Limited credit</h2>
+<ol>
+<li>
+
+For a cost of 5 points, ignore the <i>k</i> parameter (although it must be
+present) and assume <i>k</i> is 3.
+</li><li>
+
+For a cost of 5 points, use sorting instead of QuickSelect to find the medians.
+</li></ol>
+<p>
+</p><h2>Useful tools</h2>
+<p>
+You have access to some useful tools.  First, there is a sample
+<code>Makefile</code> at
+<code><a href="http://www.cs.uky.edu/~raphael/courses/CS315/prog3/Makefile">http://www.cs.uky.edu/~raphael/courses/CS315/prog3/Makefile</a></code>.
+It has a <i>run</i> target that compiles your program (either <code>kd.c</code> or
+<code>kd.cpp</code>) and runs it.  It also has a <i>runWorking</i> target that gets and
+runs a working program so you can compare your output against it.
+</p><p>
+A second tool is <code>randGen.pl</code>, which you used in the previous assignments.
+As before, if you invoke it with no parameters, it chooses a
+random seed and produces non-negative integers.  If you invoke it with one
+parameter <i>s</i>, then <i>s</i> is the seed for the pseudo-random number generator,
+and the stream of numbers is therefore deterministic.  If you invoke it with two
+parameters <i>s</i> and <i>m</i>, then <i>m</i> is a modulus limiting the size of
+the outputs; they will range from 0 to <i>m</i>-1.
+Here is how you can invoke <code>randGen.pl</code> with your program,
+seeding the random-number generator with 42, limiting the random numbers to the
+range [0 .. 9999], setting <i>k</i> to 3, <i>n</i> to 64, and <i>p</i> to 2:
+</p><pre> ./randGen.pl 42 10000 | ./kd 3 64 2
+</pre>
+<p>
+<b>Warning</b>:  If you run <code>randGen.pl</code> by itself, it generates an unbounded
+list of numbers.  You should always pipe its output into another program, such
+as <code>kd</code> or <code>less</code>.
+</p><p>
+You can also get a working program that satisfies the specifications at 
+<code><a href="http://www.cs.uky.edu/~raphael/courses/CS315/prog3/workingKD">http://www.cs.uky.edu/~raphael/courses/CS315/prog3/workingKD</a></code>.  The
+<code>Makefile</code> mentioned above automatically gets a copy of this file for you if
+you make <i>runWorking</i>.
+</p><h2>What to hand in</h2>
+<p>
+Submit via Canvas
+a copy of your program, any external documentation (including a Makefile)
+and its output when you run
+</p><pre>% randGen.pl 43 1000 | kd 3 64 10
+</pre>
+The <code>Makefile</code> mentioned above has a <i>zipAll</i> target that creates a
+package ready to submit.
+
+</body></html>

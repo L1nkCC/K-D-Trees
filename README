@@ -1,0 +1,47 @@
+README
+file: kd.cpp
+Class: CS315
+Author: Connor Leslie
+Date: 3/31/2021
+
+struct dNode
+	holds discriminating information and either:
+		1) pointers to left and right children or
+		2) a two dimensional vector of values
+	if (isLeaf == false) 1
+	if (isLeaf == true) 2
+
+func partition
+	standard partitioning method for Lomuto's
+	modifies the order of given two dimensional vector
+
+func quickSelect
+	finds the sorted position of given index;
+	recursive
+
+func median
+	wrapper func of quickSelect to always find the lower median
+
+func findRange
+	calls quickSelect for the last and first indexes and returns the difference
+
+func largestRangeDim
+	returns the dimesion with the largest range in a two dimensional vector
+
+func subVector
+	returns a subVector with given bounds
+
+func buildTree
+	recursive
+	builds kd tree with dNode
+	end condition of given arr <= constant bucket size b
+
+func printLeaf
+	prints the given dNode* if it is a leaf
+
+func probeTree
+	recursively scale tree to find the probe's appropriate leaf and prints that leaf
+
+func main 
+	makes kd tree with k dimesions, n points, and p probes(./kd k n p)
+	prints out the ouput of probes;
